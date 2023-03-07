@@ -2,6 +2,7 @@ package com.books.booksearch.controller;
 
 
 //import com.books.booksearch.bean.User;
+import com.books.booksearch.repository.BookRepository;
 import com.books.booksearch.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import com.books.booksearch.bean.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,10 +21,13 @@ public class UserController {
 
     private final UserRepository userDao;
 
+    private final BookRepository bookDao;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userDao, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userDao, BookRepository bookDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.bookDao = bookDao;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -66,7 +71,31 @@ public class UserController {
     @GetMapping("/profile")
     public String profile(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Book> books = bookDao.findAllByUser(user);
+        model.addAttribute("books", books);
         return "profile";
+    }
+
+    @PostMapping("/profile")
+    public String postProfile(@RequestParam("id") String id) {
+        Long ids = Long.valueOf(id);
+        bookDao.deleteById(ids);
+        return "redirect:/profile";
+    }
+    @GetMapping("/search")
+    public String search() {
+        return "bookSearch";
+    }
+
+    @PostMapping("/search")
+    public String postSearch(@RequestParam("author") String author, @RequestParam("title") String title, @RequestParam("isbn") String isbn) {
+        System.out.println("author = " + author);
+        System.out.println("title = " + title);
+        System.out.println("isbn = " + isbn);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Book book = new Book(author, title, isbn, user);
+        bookDao.save(book);
+        return "bookSearch";
     }
 
 }

@@ -21,6 +21,7 @@ public class User {
     @Column (nullable = false, length = 254)
     private String address;
 
+
     @Lob
     @Column (nullable = true, length = 50000, columnDefinition = "BLOB")
     private byte [] profile_img;
