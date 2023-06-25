@@ -18,6 +18,19 @@ img {
     background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
+#cont {
+    position: fixed;
+    background-color: #bbbbbb;
+    top: 50%;
+    left: 10%;
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    width: 80%;
+}
+
 /* Modal Content (Image) */
 .modal-content {
     margin: auto;

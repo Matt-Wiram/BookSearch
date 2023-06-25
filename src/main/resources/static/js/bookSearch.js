@@ -1,17 +1,15 @@
 async function  quoter() {
-    const url = 'https://timshim-quotes-v1.p.rapidapi.com/quotes';
+    const url = 'https://api.api-ninjas.com/v1/quotes?category=knowledge';
     const options = {
         method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '39815cea8fmsh7ddc7baee9aa39dp11bf55jsn73773834236c',
-            'X-RapidAPI-Host': 'timshim-quotes-v1.p.rapidapi.com'
-        }
+        headers: { 'X-Api-Key': 'REigvoNmdEEcQ8yP9YuQzA==UeZxOG4rP00HCe2w'}
     };
 
     try {
         const response = await fetch(url, options);
         const result = await response.text();
         console.log(result);
+        document.getElementById("quote").innerHTML = result.split('"')[3];
     } catch (error) {
         console.error(error);
     }
@@ -131,6 +129,8 @@ function querySearch(query) {
 document.getElementById("submit").addEventListener("click", function (e) {
 
     // e.preventDefault();
+    document.getElementById("quote").innerHTML = ""
+    $("#cont").css('background-color', 'white')
     let query = document.getElementById("query").value;
     querySearch(query)
 
