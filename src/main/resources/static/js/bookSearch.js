@@ -1,3 +1,24 @@
+async function  quoter() {
+    const url = 'https://timshim-quotes-v1.p.rapidapi.com/quotes';
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '39815cea8fmsh7ddc7baee9aa39dp11bf55jsn73773834236c',
+            'X-RapidAPI-Host': 'timshim-quotes-v1.p.rapidapi.com'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.text();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+quoter()
+
 let subArray =[]
 let img
 let modalImg
@@ -115,6 +136,7 @@ document.getElementById("submit").addEventListener("click", function (e) {
 
 
 })
+
 
 
 
